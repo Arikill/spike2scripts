@@ -1,0 +1,38 @@
+#include "libs/FileObj.s2s"
+#include "libs/SaveObj.s2s"
+#include "libs/SettingsObj.s2s"
+
+var SettingsObj stgs;
+stgs.setPath(FileName$(-1));
+stgs.setName(FileName$(3)+"_wave_avg_settings.s2gx");
+stgs.openFile();
+stgs.openFile();
+stgs.readAll();
+stgs.closeFile();
+
+var FileObj file;
+file.setName(FileName$(3));
+file.setPath(FileName$(-1));
+file.bringToFront();
+
+var SaveObj saver;
+
+var ok% := stgs.createAnalysisDlg%();
+
+if ok% = 1 then
+    saver.setSavePath(file.path$+"\\..\\resultfiles"+"\\"+stgs.folder$);
+    stgs.print();
+    stgs.createAverage%();
+    saver.setSaveName(stgs.buildAvgSaveName$());
+    saver.save();
+
+    stgs.createPSTH%();
+    saver.setSaveName(stgs.buildPSTHSaveName$());
+    saver.save();
+    
+    stgs.openFile();
+    stgs.writeAll();
+    stgs.closeFile();
+endif
+
+

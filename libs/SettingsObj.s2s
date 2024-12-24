@@ -3,6 +3,9 @@ object SettingsObj
     var name$;
     var view%;
     
+    var waveAvgView%;
+    var psthView%;
+    
     var temp$;
     
     var folder$;
@@ -15,7 +18,10 @@ object SettingsObj
     var stimTrigChan%;
     var stimChan%;
     var waveChan%;
-    var duration;
+    var spksTrigChan%;
+    var avgDuration;
+    var nbins%;
+    var psthDuration;
     var c12%;
     var c34%;
     var c56%;
@@ -83,6 +89,11 @@ object SettingsObj
     func get_stimTrigChan(col%, row%) get(col%, row%); set_stimTrigChan(self.temp$); end;
     func write_stimTrigChan(col%, row%) return write(Str$(self.stimTrigChan%), col%, row%) end;
     
+    '' spksTrigChan functions
+    func set_spksTrigChan(x$) self.spksTrigChan% := Val(x$) end;
+    func get_spksTrigChan(col%, row%) get(col%, row%); set_spksTrigChan(self.temp$); end;
+    func write_spksTrigChan(col%, row%) return write(Str$(self.spksTrigChan%), col%, row%) end;
+    
     '' stimChan functions
     func set_stimChan(x$) self.stimChan% := Val(x$) end;
     func get_stimChan(col%, row%) get(col%, row%); set_stimChan(self.temp$); end;
@@ -93,10 +104,20 @@ object SettingsObj
     func get_waveChan(col%, row%) get(col%, row%); set_waveChan(self.temp$); end;
     func write_waveChan(col%, row%) return write(Str$(self.waveChan%), col%, row%) end;
     
-    '' duration functions
-    func set_duration(x$) self.duration := Val(x$) end;
-    func get_duration(col%, row%) get(col%, row%); set_duration(self.temp$); end;
-    func write_duration(col%, row%) return write(Str$(self.duration), col%, row%) end;
+    '' avgDuration functions
+    func set_avgDuration(x$) self.avgDuration := Val(x$) end;
+    func get_avgDuration(col%, row%) get(col%, row%); set_avgDuration(self.temp$); end;
+    func write_avgDuration(col%, row%) return write(Str$(self.avgDuration), col%, row%) end;
+    
+    '' nBins functions
+    func set_nbins(x$) self.nbins% := Val(x$) end;
+    func get_nbins(col%, row%) get(col%, row%); set_nbins(self.temp$); end;
+    func write_nbins(col%, row%) return write(Str$(self.nbins%), col%, row%) end;
+    
+    '' ptshDuration functions
+    func set_psthDuration(x$) self.psthDuration := Val(x$) end;
+    func get_psthDuration(col%, row%) get(col%, row%); set_psthDuration(self.temp$); end;
+    func write_psthDuration(col%, row%) return write(Str$(self.psthDuration), col%, row%) end;
     
     '' c12 functions
     func set_c12(x$) self.c12% := Val(x$) end;
@@ -130,48 +151,236 @@ object SettingsObj
     
     '' 
     func readAll()
-    get_folder(1, 0);
-    get_db(1, 1);
-    get_Hz(1, 2);
-    get_msPD(1, 3);
-    get_pulses(1, 4);
-    get_pps(1, 5);
-    get_nA(1, 6);
-    get_stimTrigChan(1, 7);
-    get_stimChan(1, 8);
-    get_waveChan(1, 9);
-    get_duration(1, 10);
-    get_c12(1, 11);
-    get_c34(1, 12);
-    get_c56(1, 13);
-    get_c78(1, 14);
-    get_c90(1, 15);
-    get_version(1, 16);
+    var row% := 0;
+    var col% := 1;
+    get_folder(col%, row%);
+    row% += 1;
+    get_db(col%, row%);
+    row% += 1;
+    get_Hz(col%, row%);
+    row% += 1;
+    get_msPD(col%, row%);
+    row% += 1;
+    get_pulses(col%, row%);
+    row% += 1;
+    get_pps(col%, row%);
+    row% += 1;
+    get_nA(col%, row%);
+    row% += 1;
+    get_stimTrigChan(col%, row%);
+    row% += 1;
+    get_spksTrigChan(col%, row%);
+    row% += 1;
+    get_stimChan(col%, row%);
+    row% += 1;
+    get_waveChan(col%, row%);
+    row% += 1;
+    get_avgDuration(col%, row%);
+    row% += 1;
+    get_nbins(col%, row%);
+    row% += 1;
+    get_psthDuration(col%, row%);
+    row% += 1;
+    get_c12(col%, row%);
+    row% += 1;
+    get_c34(col%, row%);
+    row% += 1;
+    get_c56(col%, row%);
+    row% += 1;
+    get_c78(col%, row%);
+    row% += 1;
+    get_c90(col%, row%);
+    row% += 1;
+    get_version(col%, row%);
+    row% += 1;
     end
     
     func writeAll()
-    write_folder(1, 0);
-    write_db(1, 1);
-    write_Hz(1, 2);
-    write_msPD(1, 3);
-    write_pulses(1, 4);
-    write_pps(1, 5);
-    write_nA(1, 6);
-    write_stimTrigChan(1, 7);
-    write_stimChan(1, 8);
-    write_waveChan(1, 9);
-    write_duration(1, 10);
-    write_c12(1, 11);
-    write_c34(1, 12);
-    write_c56(1, 13);
-    write_c78(1, 14);
-    write_c90(1, 15);
-    write_version(1, 16);
+    var row% := 0;
+    var col% := 1;
+    write_folder(col%, row%);
+    row% += 1;
+    write_db(col%, row%);
+    row% += 1;
+    write_Hz(col%, row%);
+    row% += 1;
+    write_msPD(col%, row%);
+    row% += 1;
+    write_pulses(col%, row%);
+    row% += 1;
+    write_pps(col%, row%);
+    row% += 1;
+    write_nA(col%, row%);
+    row% += 1;
+    write_stimTrigChan(col%, row%);
+    row% += 1;
+    write_spksTrigChan(col%, row%);
+    row% += 1;
+    write_stimChan(col%, row%);
+    row% += 1;
+    write_waveChan(col%, row%);
+    row% += 1;
+    write_avgDuration(col%, row%);
+    row% += 1;
+    write_nbins(col%, row%);
+    row% += 1;
+    write_psthDuration(col%, row%);
+    row% += 1;
+    write_c12(col%, row%);
+    row% += 1;
+    write_c34(col%, row%);
+    row% += 1;
+    write_c56(col%, row%);
+    row% += 1;
+    write_c78(col%, row%);
+    row% += 1;
+    write_c90(col%, row%);
+    row% += 1;
+    write_version(col%, row%);
     end
     
-    func buildSaveName$()
+    func buildAvgSaveName$()
     var saveName$ := Str$(self.dB%)+"dB_"+Str$(self.Hz%)+"Hz_"+Str$(self.msPD%)+"msPD_"+Str$(self.pulses%)+"pulses_"+Str$(self.pps%)+"pps_"+Str$(self.nA)+"nA_v"+self.version$;
     return saveName$;
     end
     
+    func buildPSTHSaveName$()
+    var saveName$ := self.buildAvgSaveName$()+"_psth";
+    return saveName$
+    end
+    
+    func print()
+    PrintLog("Setting File: "+self.path$+"\\"+self.name$+" \n");
+    PrintLog("Attenuation: "+Str$(self.dB%)+" dB \n");
+    PrintLog("Carrier Frequency: "+Str$(self.Hz%)+" Hz \n");
+    PrintLog("Pulse Duration: "+Str$(self.msPD%)+" msec \n");
+    PrintLog("Pulse Rate: "+Str$(self.pps%)+" pps \n");
+    PrintLog("Injected Current: "+Str$(self.nA)+" nA \n");
+    PrintLog("Stimulus Trigger Channel: "+Str$(self.stimTrigChan%)+" \n");
+    PrintLog("Spikes Trigger Channel: "+Str$(self.spksTrigChan%)+" \n");
+    PrintLog("Stimulus Channel: "+Str$(self.stimChan%)+" \n");
+    PrintLog("Wave Channel: "+Str$(self.waveChan%)+" \n");
+    PrintLog("Average Duration: "+Str$(self.avgDuration)+" secs \n");
+    PrintLog("PSTH bins: "+Str$(self.nbins%)+" \n");
+    PrintLog("PSTH duration: "+Str$(self.psthDuration)+" secs \n");
+    PrintLog("Cursor 1-2: "+Str$(self.c12%)+" \n");
+    PrintLog("Cursor 3-4: "+Str$(self.c34%)+" \n");
+    PrintLog("Cursor 5-6: "+Str$(self.c56%)+" \n");
+    PrintLog("Cursor 7-8: "+Str$(self.c78%)+" \n");
+    PrintLog("Cursor 9-0: "+Str$(self.c90%)+" \n");
+    PrintLog("File Version: "+self.version$+" \n");
+    PrintLog("Folder: "+self.folder$+" \n");
+    end
+    
+    func createAverage%()
+    var samples% := self.avgDuration * (1.0/BinSize(self.waveChan%));
+    self.waveAvgView% := SetAverage(self.waveChan%, samples%, 0, self.stimTrigChan%, 1, 1);
+    FrontView(self.view%);
+    if self.c12% = 1 then
+        Process(View(-1).Cursor(1), View(-1).Cursor(2), 0, 1);
+    endif
+    if self.c34% = 1 then
+        Process(View(-1).Cursor(3), View(-1).Cursor(4), 0, 1);
+    endif
+    if self.c56% = 1 then
+        Process(View(-1).Cursor(5), View(-1).Cursor(6), 0, 1);
+    endif
+    if self.c78% = 1 then
+        Process(View(-1).Cursor(7), View(-1).Cursor(8), 0, 1);
+    endif
+    if self.c90% = 1 then
+        Process(View(-1).Cursor(9), View(-1).Cursor(0), 0, 1);
+    endif
+    FrontView(self.waveAvgView%);
+    end
+    
+    func createPSTH%()
+    self.psthView% := SetPsth(self.spksTrigChan%, self.nbins%, self.avgDuration, 0, self.stimTrigChan%, 2);
+    FrontView(self.psthView%);
+    if self.c12% = 1 then
+        Process(View(-1).Cursor(1), View(-1).Cursor(2), 0, 1);
+    endif
+    if self.c34% = 1 then
+        Process(View(-1).Cursor(3), View(-1).Cursor(4), 0, 1);
+    endif
+    if self.c56% = 1 then
+        Process(View(-1).Cursor(5), View(-1).Cursor(6), 0, 1);
+    endif
+    if self.c78% = 1 then
+        Process(View(-1).Cursor(7), View(-1).Cursor(8), 0, 1);
+    endif
+    if self.c90% = 1 then
+        Process(View(-1).Cursor(9), View(-1).Cursor(0), 0, 1);
+    endif
+    FrontView(self.psthView%) ;
+    end
+    
+    func createAnalysisDlg%()
+    var idx% := 1;
+    var waveChanType% := 1;
+    var eventChanType% := 2;
+    DlgCreate("Analysis Settings");
+    DlgChan(idx%, "Waveform Channel", waveChanType%);
+    idx% += 1;
+    DlgChan(idx%, "Stimulus Channel", waveChanType%);
+    idx% += 1;
+    DlgChan(idx%, "Stimulus Trigger Channel", eventChanType%);
+    idx% += 1;
+    DlgChan(idx%, "Spike Trigger Channel", eventChanType%);
+    idx% += 1;
+    DlgXValue(idx%, "Duration for Average (secs)");
+    idx% += 1;
+    DlgCheck(idx%, "Include Cursor Region 1-2");
+    idx% += 1;
+    DlgCheck(idx%, "Include Cursor Region 3-4");
+    idx% += 1;
+    DlgCheck(idx%, "Include Cursor Region 5-6");
+    idx% += 1;
+    DlgCheck(idx%, "Include Cursor Region 7-8");
+    idx% += 1;
+    DlgCheck(idx%, "Include Cursor Region 9-0");
+    idx% += 1;
+    DlgInteger(idx%, "PSTH Bins", 1, 10000);
+    idx% += 1;
+    DlgXValue(idx%, "PSTH Duration (secs)");
+    idx% += 1;
+    DlgInteger(idx%, "Stimulus Attenuation(dB)", -100, 0);
+    idx% += 1;
+    DlgInteger(idx%, "Stimulus Carrier Frequency (Hz)", 1, 5000);
+    idx% += 1;
+    DlgInteger(idx%, "Stimulus Pulse Duration (msec)", 1, 1000);
+    idx% += 1;
+    DlgInteger(idx%, "Number of Pulses", 1, 200);
+    idx% += 1;
+    DlgInteger(idx%, "Pulse Rate (pps)", 1, 200);
+    idx% += 1;
+    DlgReal(idx%, "Injected Current (nA)", -1, 1);
+    idx% += 1;
+    DlgString(idx%, "Version", 256);
+    idx% += 1;
+    DlgString(idx%, "Results Subfolder", 256);
+    var ok% := DlgShow(
+        self.waveChan%,
+        self.stimChan%, 
+        self.stimTrigChan%, 
+        self.spksTrigChan%, 
+        self.avgDuration, 
+        self.c12%, 
+        self.c34%, 
+        self.c56%, 
+        self.c78%, 
+        self.c90%, 
+        self.nbins%, 
+        self.psthDuration, 
+        self.dB%, 
+        self.Hz%, 
+        self.msPD%, 
+        self.pulses%, 
+        self.pps%, 
+        self.nA, 
+        self.version$, 
+        self.folder$);
+    return ok%
+    end
+
 ObjEnd    
