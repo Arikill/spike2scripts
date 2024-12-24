@@ -6,7 +6,7 @@
 			<DefCol />
 			<Row n="0">
 				<C n="0" t="folder" />
-				<C pf="134252425" t="baseline" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="NBQX" htcol="16777215" hbcol="14120960" />
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
@@ -39,15 +39,15 @@
 			</Row>
 			<Row>
 				<C n="0" pf="134252425" t="stimTrigChan" htcol="16777215" hbcol="14120960" />
-				<C pf="134252425" t="2" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="20" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
 				<C n="0" pf="134252425" t="stimChan" htcol="16777215" hbcol="14120960" />
-				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="9" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
 				<C n="0" pf="134252425" t="waveChan" htcol="16777215" hbcol="14120960" />
-				<C pf="134252425" t="11" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="15" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
 				<C n="0" pf="134252425" t="duration" htcol="16777215" hbcol="14120960" />
@@ -63,7 +63,7 @@
 			</Row>
 			<Row>
 				<C n="0" t="c56" />
-				<C t="1" />
+				<C t="0" />
 			</Row>
 			<Row>
 				<C n="0" t="c78" />
