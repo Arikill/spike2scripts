@@ -6,7 +6,6 @@ var SettingsObj stgs;
 stgs.setPath(FileName$(-1));
 stgs.setName(FileName$(3)+"_wave_avg_settings.s2gx");
 stgs.openFile();
-stgs.openFile();
 stgs.readAll();
 stgs.closeFile();
 
@@ -21,18 +20,30 @@ var ok% := stgs.createAnalysisDlg%();
 
 if ok% = 1 then
     saver.setSavePath(file.path$+"\\..\\resultfiles"+"\\"+stgs.folder$);
-    stgs.print();
-    stgs.createAverage%();
-    saver.setSaveName(stgs.buildAvgSaveName$());
-    saver.save();
-
-    stgs.createPSTH%();
-    saver.setSaveName(stgs.buildPSTHSaveName$());
-    saver.save();
-    
-    stgs.openFile();
-    stgs.writeAll();
-    stgs.closeFile();
+    'stgs.print();
+    var choiceDlg% := stgs.createAnalysisChoiceDlg%();
+    if choiceDlg% = 1 then
+        if stgs.waveAvgFlag% = 1 then
+            stgs.createAverage%();
+            saver.setSaveName(stgs.buildAvgSaveName$());
+            saver.save();
+        endif
+        
+        if stgs.psthFlag% = 1 then
+            stgs.createPSTH%();
+            saver.setSaveName(stgs.buildPSTHSaveName$());
+            saver.save();
+        endif
+        
+        if stgs.stimAvgFlag% = 1 then
+            stgs.createStimAverage%();
+            saver.setSaveName(stgs.buildStimSaveName$());
+            saver.save();
+        endif
+        stgs.openFile();
+        stgs.writeAll();
+        stgs.closeFile();
+    endif
 endif
 
 

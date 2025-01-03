@@ -5,6 +5,11 @@ object SettingsObj
     
     var waveAvgView%;
     var psthView%;
+    var stimAvgView%;
+    
+    var waveAvgFlag%;
+    var psthFlag%;
+    var stimAvgFlag%;
     
     var temp$;
     
@@ -20,6 +25,7 @@ object SettingsObj
     var waveChan%;
     var spksTrigChan%;
     var avgDuration;
+    var waveSamples%;
     var nbins%;
     var psthDuration;
     var c12%;
@@ -33,7 +39,7 @@ object SettingsObj
     func setPath(path$) self.path$ := path$ end;
     func setName(name$) self.name$ := name$ end;
     func openFile() 
-    self.view% := FileOpen(self.path$+"\\"+self.name$, 17, 2); 
+    self.view% := FileOpen(self.path$+"//"+self.name$, 17, 2);
     return self.view%; 
     end
     func closeFile() View(self.view%);FileSave();FileClose(); end;
@@ -109,6 +115,8 @@ object SettingsObj
     func get_avgDuration(col%, row%) get(col%, row%); set_avgDuration(self.temp$); end;
     func write_avgDuration(col%, row%) return write(Str$(self.avgDuration), col%, row%) end;
     
+    func set_waveSamples() self.waveSamples% := self.avgDuration * (1.0/BinSize(self.waveChan%)); end;
+    
     '' nBins functions
     func set_nbins(x$) self.nbins% := Val(x$) end;
     func get_nbins(col%, row%) get(col%, row%); set_nbins(self.temp$); end;
@@ -148,6 +156,19 @@ object SettingsObj
     func set_version(x$) self.version$ := x$ end;
     func get_version(col%, row%) get(col%, row%); set_version(self.temp$); end;
     func write_version(col%, row%) return write(self.version$, col%, row%) end;
+    
+    func set_waveAvgFlag(x$) self.waveAvgFlag% := Val(x$) end;
+    func get_waveAvgFlag(col%, row%) get(col%, row%); set_waveAvgFlag(self.temp$); end;
+    func write_waveAvgFlag(col%, row%) return write(Str$(self.waveAvgFlag%), col%, row%) end;
+    
+    func set_psthFlag(x$) self.psthFlag% := Val(x$) end;
+    func get_psthFlag(col%, row%) get(col%, row%); set_psthFlag(self.temp$); end;
+    func write_psthFlag(col%, row%) return write(Str$(self.psthFlag%), col%, row%) end;
+    
+    func set_stimAvgFlag(x$) self.stimAvgFlag% := Val(x$) end;
+    func get_stimAvgFlag(col%, row%) get(col%, row%); set_stimAvgFlag(self.temp$); end;
+    func write_stimAvgFlag(col%, row%) return write(Str$(self.stimAvgFlag%), col%, row%) end;
+    
     
     '' 
     func readAll()
@@ -193,6 +214,11 @@ object SettingsObj
     row% += 1;
     get_version(col%, row%);
     row% += 1;
+    get_waveAvgFlag(col%, row%);
+    row% += 1;
+    get_psthFlag(col%, row%);
+    row% += 1;
+    get_stimAvgFlag(col%, row%);
     end
     
     func writeAll()
@@ -237,6 +263,12 @@ object SettingsObj
     write_c90(col%, row%);
     row% += 1;
     write_version(col%, row%);
+    row% += 1;
+    write_waveAvgFlag(col%, row%);
+    row% += 1;
+    write_psthFlag(col%, row%);
+    row% += 1;
+    write_stimAvgFlag(col%, row%);
     end
     
     func buildAvgSaveName$()
@@ -246,7 +278,12 @@ object SettingsObj
     
     func buildPSTHSaveName$()
     var saveName$ := self.buildAvgSaveName$()+"_psth";
-    return saveName$
+    return saveName$;
+    end
+    
+    func buildStimSaveName$()
+    var saveName$ := self.buildAvgSaveName$()+"_stimulus";
+    return saveName$;
     end
     
     func print()
@@ -270,11 +307,13 @@ object SettingsObj
     PrintLog("Cursor 9-0: "+Str$(self.c90%)+" \n");
     PrintLog("File Version: "+self.version$+" \n");
     PrintLog("Folder: "+self.folder$+" \n");
+    PrintLog("Make Waveform Average: "+Str$(self.waveAvgFlag%)+" \n");
+    PrintLog("Make PSTH: "+Str$(self.psthFlag%)+" \n");
+    PrintLog("Make Stimulus Average: "+Str$(self.stimAvgFlag%)+" \n");
     end
     
     func createAverage%()
-    var samples% := self.avgDuration * (1.0/BinSize(self.waveChan%));
-    self.waveAvgView% := SetAverage(self.waveChan%, samples%, 0, self.stimTrigChan%, 1, 1);
+    self.waveAvgView% := SetAverage(self.waveChan%, self.waveSamples%, 0, self.stimTrigChan%, 1, 1);
     FrontView(self.view%);
     if self.c12% = 1 then
         Process(View(-1).Cursor(1), View(-1).Cursor(2), 0, 1);
@@ -294,8 +333,31 @@ object SettingsObj
     FrontView(self.waveAvgView%);
     end
     
+    func createStimAverage%()
+    self.stimAvgView% := SetAverage(self.stimChan%, self.waveSamples%, 0, self.stimTrigChan%, 1, 1);
+    FrontView(self.view%);
+    if self.c12% = 1 then
+        Process(View(-1).Cursor(1), View(-1).Cursor(2), 0, 1);
+    endif
+    if self.c34% = 1 then
+        Process(View(-1).Cursor(3), View(-1).Cursor(4), 0, 1);
+    endif
+    if self.c56% = 1 then
+        Process(View(-1).Cursor(5), View(-1).Cursor(6), 0, 1);
+    endif
+    if self.c78% = 1 then
+        Process(View(-1).Cursor(7), View(-1).Cursor(8), 0, 1);
+    endif
+    if self.c90% = 1 then
+        Process(View(-1).Cursor(9), View(-1).Cursor(0), 0, 1);
+    endif
+    FrontView(self.stimAvgView%);
+    end
+    
+    
     func createPSTH%()
-    self.psthView% := SetPsth(self.spksTrigChan%, self.nbins%, self.avgDuration, 0, self.stimTrigChan%, 2);
+    var binDuration := self.avgDuration/self.nbins%;
+    self.psthView% := SetPsth(self.spksTrigChan%, self.nbins%, binDuration, 0, self.stimTrigChan%, 2);
     FrontView(self.psthView%);
     if self.c12% = 1 then
         Process(View(-1).Cursor(1), View(-1).Cursor(2), 0, 1);
@@ -313,6 +375,19 @@ object SettingsObj
         Process(View(-1).Cursor(9), View(-1).Cursor(0), 0, 1);
     endif
     FrontView(self.psthView%) ;
+    end
+    
+    func createAnalysisChoiceDlg%()
+    var idx% := 1;
+    DlgCreate("Analysis Choice");
+    DlgCheck(idx%, "Waveform Average");
+    idx% += 1;
+    DlgCheck(idx%, "PSTH");
+    idx% += 1;
+    DlgCheck(idx%, "Stimulus");
+    idx% += 1;
+    var ok% := DlgShow(self.waveAvgFlag%, self.psthFlag%, self.stimAvgFlag%);
+    return ok%;
     end
     
     func createAnalysisDlg%()
@@ -379,7 +454,10 @@ object SettingsObj
         self.pps%, 
         self.nA, 
         self.version$, 
-        self.folder$);
+    self.folder$);
+    if ok% = 1 then
+        self.set_waveSamples();
+    endif
     return ok%
     end
 
