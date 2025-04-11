@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <CEDResources App="Spike2" AppVer="1001">
 	<DocGrid>
+		<View>
+			<WPlace flags="0" showc="1" minx="-1" miny="-1" maxx="-8" maxy="-31" t="377" b="982" l="1677" r="2416" />
+			<Font hgt="-11" hthou="-115" wgt="400" paf="16" fnam="Times New Roman" />
+		</View>
 		<Sheet rows="100" cols="26">
 			<C pf="134266760" htcol="16777215" hbcol="14120960" borstyl="12" />
 			<DefCol />
 			<Row n="0">
 				<C n="0" t="folder" />
-				<C pf="134252425" t="NBQX" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="baseline" htcol="16777215" hbcol="14120960" />
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
@@ -42,6 +46,10 @@
 				<C pf="134252425" t="20" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
+				<C n="0" pf="134252425" t="spksTrigChan" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="5" htcol="16777215" hbcol="14120960" />
+			</Row>
+			<Row>
 				<C n="0" pf="134252425" t="stimChan" htcol="16777215" hbcol="14120960" />
 				<C pf="134252425" t="9" htcol="16777215" hbcol="14120960" />
 			</Row>
@@ -50,42 +58,54 @@
 				<C pf="134252425" t="15" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" pf="134252425" t="duration" htcol="16777215" hbcol="14120960" />
-				<C pf="134252425" t="1.98" htcol="16777215" hbcol="14120960" />
+				<C n="0" pf="134252425" t="avgDuration" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1.95" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" t="c12" />
-				<C t="1" />
+				<C n="0" pf="134252425" t="nbins" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" t="c34" />
-				<C t="1" />
+				<C n="0" pf="134252425" t="ptshDuration" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1.95" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" t="c56" />
-				<C t="0" />
+				<C n="0" pf="134252425" t="c12" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" t="c78" />
-				<C t="1" />
+				<C n="0" pf="134252425" t="c34" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" t="c90" />
-				<C t="1" />
+				<C n="0" pf="134252425" t="c56" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="0" htcol="16777215" hbcol="14120960" />
+			</Row>
+			<Row>
+				<C n="0" pf="134252425" t="c78" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
+			</Row>
+			<Row>
+				<C n="0" pf="134252425" t="c90" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
 				<C n="0" pf="134252425" t="version" htcol="16777215" hbcol="14120960" />
 				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" pf="134252424" htcol="16777215" hbcol="14120960" />
-				<C pf="134252424" htcol="16777215" hbcol="14120960" />
+				<C n="0" pf="134252425" t="waveAvgFlag" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
-				<C n="0" pf="134252424" htcol="16777215" hbcol="14120960" />
-				<C pf="134252424" htcol="16777215" hbcol="14120960" />
+				<C n="0" pf="134252425" t="psthFlag" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
 			</Row>
 			<Row>
+				<C n="0" pf="134252425" t="stimAvgFlag" htcol="16777215" hbcol="14120960" />
+				<C pf="134252425" t="1" htcol="16777215" hbcol="14120960" />
+			</Row>
+			<Row n="24">
 				<C n="0" pf="134252424" htcol="16777215" hbcol="14120960" />
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
 			</Row>
@@ -110,9 +130,5 @@
 				<C pf="134252424" htcol="16777215" hbcol="14120960" />
 			</Row>
 		</Sheet>
-		<View>
-			<WPlace flags="0" showc="1" minx="-1" miny="-1" maxx="0" maxy="38" t="359" b="731" l="1448" r="2306" />
-			<Font hgt="-11" hthou="-115" wgt="400" paf="16" fnam="Times New Roman" />
-		</View>
 	</DocGrid>
 </CEDResources>
