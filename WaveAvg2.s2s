@@ -4,7 +4,7 @@
 
 var SettingsObj stgs;
 stgs.setPath(FileName$(-1));
-stgs.setName(FileName$(3)+"_wave_avg_settings.s2gx");
+stgs.setName(FileName$(3)+""+FileName$(4)+"_wave_avg_settings.s2gx");
 stgs.openFile();
 stgs.readAll();
 stgs.closeFile();

@@ -39,7 +39,7 @@ object SettingsObj
     func setPath(path$) self.path$ := path$ end;
     func setName(name$) self.name$ := name$ end;
     func openFile() 
-    self.view% := FileOpen(self.path$+"//"+self.name$, 17, 2);
+    self.view% := FileOpen(self.path$+self.name$, 17, 2);
     return self.view%; 
     end
     func closeFile() View(self.view%);FileSave();FileClose(); end;
@@ -425,9 +425,9 @@ object SettingsObj
     idx% += 1;
     DlgInteger(idx%, "Stimulus Pulse Duration (msec)", 1, 1000);
     idx% += 1;
-    DlgInteger(idx%, "Number of Pulses", 1, 200);
+    DlgInteger(idx%, "Number of Pulses", 0, 200);
     idx% += 1;
-    DlgInteger(idx%, "Pulse Rate (pps)", 1, 200);
+    DlgInteger(idx%, "Pulse Rate (pps)", 0, 200);
     idx% += 1;
     DlgReal(idx%, "Injected Current (nA)", -1, 1);
     idx% += 1;
