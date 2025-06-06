@@ -40,9 +40,7 @@ if ok% = 1 then
             break;
         endif
         maxAmplitude := ChanMeasure(stimChan%, 13, stimTrigs.start_event, nextStimEvent);
-        'MinMax(stimChan%, stimTrigs.start_event, stimTrigs.end_event, minAmplitude, maxAmplitude);
         attnValue% := Round(3*20*Log(Abs(2*maxAmplitude)/refAmplitude))/3;
-        PrintLog("Time: "+Str$(stimTrigs.start_event)+" Attn: "+Str$(attnValue%)+"\n");
         MemSetItem(attenMarkerChan%, 0, stimTrigs.start_event, 0, Str$(attnValue%));
         if stimTrigs.getNext() < 0 then
             break;
