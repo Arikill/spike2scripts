@@ -39,7 +39,9 @@ object TrigsObj
     if self.min_gap <= 0 then
         return -1;
     endif
-    var rate% := 1/(Ceil(self.min_gap*1000)/1000);
+    'var rate% := 1/(Ceil(self.min_gap*1000)/1000);
+    var rawRate := 1/self.min_gap;
+    var rate% := 5 * Round(rawRate/5);
     return rate%;
     end
     
