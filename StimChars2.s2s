@@ -16,6 +16,9 @@ stimTrigs.setEndEvent(MaxTime());
 var TrigsObj pulseTrigs;
 pulseTrigs.setChan(3);
 var counter prrCounter;
+var suffix$ := "W";
+
+var rateChan%;
 
 DlgCreate("Stimulus Characteristics");
 DlgChan(1, "Stimulus Triggers Channel", 2);
@@ -26,8 +29,7 @@ DlgString(5, "Suffix (eg: W for West)", 1);
 
 var ok% := DlgShow(stimTrigs.chan%, pulseTrigs.chan%, stimTrigs.start_event, stimTrigs.end_event, suffix$);
 
-if ok% = 1 then
-    
+if ok% = 1 then 
     var prrMarkerChan% := createMarkerChannel("PRR("+suffix$+"): ");
     var npulsesMarkerChan% := createMarkerChannel("npulses("+suffix$+"): ");
     var gapMarkerChan% := createMarkerChannel("gap("+suffix$+"): ");

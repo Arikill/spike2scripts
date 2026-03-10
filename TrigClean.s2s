@@ -1,0 +1,62 @@
+'Deletes any spurious pulse triggers that are minTime apart from the pulse triggers channel.
+#include "libs/FileObj.s2s"
+#include "libs/ChanFuncs.s2s"
+#include "libs/TrigsObj.s2s"
+
+var FileObj file;
+file.setName(FileName$(3));
+file.bringToFront();
+
+var TrigsObj pulseTrigs;
+var TrigsObj stimTrigs;
+pulseTrigs.setChan(3);
+var TrigsObj newPulseTrigs;
+var TrigsObj newStimTrigs;
+newPulseTrigs.start_event := 0.0;
+newPulseTrigs.end_event := MaxTime();
+newStimTrigs.start_event := 0.0;
+newStimTrigs.end_event := MaxTime();
+
+var minTime := 0.01;
+var minPRR := 2;
+var nextPulseTime := 0;
+var nextStimTime := 0;
+var eventDistance := 0;
+
+var itemDeleteFlag := 0;
+
+
+DlgCreate("Pulse Trigger Cleaner.");
+DlgChan(1, "Pulse Triggers Channel", 2);
+DlgXValue(2, "Min time for trigger removal");
+DlgXValue(3, "Min PRR in File");
+DlgXValue(4, "Start Time");
+DlgXValue(5, "End Time");
+var ok% := DlgShow(pulseTrigs.chan%, minTime, minPRR, newPulseTrigs.start_event, newPulseTrigs.end_event);
+
+newPulseTrigs.setChan(createEventChannelFrom("PlsTrigs", pulseTrigs.chan%));
+newStimTrigs.setChan(createEventChannel("StimTrigs"));
+
+if ok% = 1 then
+    newPulseTrigs.setStartEvent(newPulseTrigs.start_event);
+    newStimTrigs.writeEvent(newPulseTrigs.start_event);
+    'PrintLog("BinSize: "+Str$(BinSize(newPulseTrigs.chan%))+"\n");
+    while newPulseTrigs.start_event <= newPulseTrigs.end_event do
+        nextPulseTime := NextTime(newPulseTrigs.chan%, newPulseTrigs.start_event);
+        if nextPulseTime < 0 then
+            break;
+        endif;
+        
+        eventDistance := nextPulseTime - newPulseTrigs.start_event;
+        if (eventDistance > (1.0/minPRR)) then
+            newStimTrigs.writeEvent(nextPulseTime);
+        endif; 
+        'PrintLog(Str$(nextPulseTime)+"-"+Str$(newPulseTrigs.start_event)+"="+Str$(eventDistance)+"\n");
+        if (eventDistance < minTime) then
+            itemDeleteFlag := MemDeleteTime(newPulseTrigs.chan%, 3, nextPulseTime);
+        else
+            newPulseTrigs.setStartEvent(newPulseTrigs.start_event);
+        endif;
+        
+    wend;
+endif;
